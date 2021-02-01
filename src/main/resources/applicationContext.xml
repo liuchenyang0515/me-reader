@@ -16,8 +16,41 @@
     <!-- 3.开启SpringMVC注解模式 -->
     <context:component-scan base-package="com.me"/>
     <!-- 这一句依赖上一句的配置 -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <!-- 对于响应中中文设置 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <!--设置mime和字符集-->
+                        <!-- 这里是没有通过模版引擎，直接返回时的格式 -->
+                        <value>text/html;charset=utf-8</value>
+                        <!-- 6.json(jackson)序列化输出配置 -->
+                        <value>application/json;charset=utf-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!-- 排除静态资源，提高SpringMVC对URL的处理效率 -->
     <mvc:default-servlet-handler/>
 
+    <!-- 5.配置Freemarker模版引擎 -->
+<!--    哪个目录加载freemarker脚本-->
+    <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
+<!--        freemarker本身需要配置哪些参数-->
+        <property name="freemarkerSettings">
+            <props>
+<!--                freemarker读取指定指定文件时，使用UTF-8格式读取-->
+                <prop key="defaultEncoding">UTF-8</prop>
+            </props>
+        </property>
+    </bean>
+<!--    哪种模版引擎对数据进行解析,真正的执行对象-->
+    <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+<!--        SpringMVC加载freemarker产生html片段，返回数据的时候使用的text/html;charset=utf-8-->
+        <property name="contentType" value="text/html;charset=utf-8"/>
+        <property name="suffix" value=".ftl"/>
+    </bean>
 </beans>
