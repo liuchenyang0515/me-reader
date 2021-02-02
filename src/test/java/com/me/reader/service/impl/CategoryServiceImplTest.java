@@ -14,6 +14,7 @@ import java.util.List;
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class CategoryServiceImplTest {
     @Resource
+    // 这里注入是因为实现类CategoryServiceImpl有注解@Service("categoryService")，按名称注入实际就是实例化实现类注入到这里
     private CategoryService categoryService;
 
     /**
