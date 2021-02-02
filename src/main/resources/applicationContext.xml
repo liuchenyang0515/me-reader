@@ -4,6 +4,7 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -12,7 +13,9 @@
             http://www.springframework.org/schema/task
             http://www.springframework.org/schema/task/spring-task.xsd
             http://www.springframework.org/schema/mvc
-            http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+            http://www.springframework.org/schema/mvc/spring-mvc.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!-- 3.开启SpringMVC注解模式 -->
     <context:component-scan base-package="com.me"/>
     <!-- 这一句依赖上一句的配置 -->
@@ -36,20 +39,20 @@
     <mvc:default-servlet-handler/>
 
     <!-- 5.配置Freemarker模版引擎 -->
-<!--    哪个目录加载freemarker脚本-->
+    <!--    哪个目录加载freemarker脚本-->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/ftl"/>
-<!--        freemarker本身需要配置哪些参数-->
+        <!--        freemarker本身需要配置哪些参数-->
         <property name="freemarkerSettings">
             <props>
-<!--                freemarker读取指定指定文件时，使用UTF-8格式读取-->
+                <!--                freemarker读取指定指定文件时，使用UTF-8格式读取-->
                 <prop key="defaultEncoding">UTF-8</prop>
             </props>
         </property>
     </bean>
-<!--    哪种模版引擎对数据进行解析,真正的执行对象-->
+    <!--    哪种模版引擎对数据进行解析,真正的执行对象-->
     <bean id="ViewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
-<!--        SpringMVC加载freemarker产生html片段，返回数据的时候使用的text/html;charset=utf-8-->
+        <!--        SpringMVC加载freemarker产生html片段，返回数据的时候使用的text/html;charset=utf-8-->
         <property name="contentType" value="text/html;charset=utf-8"/>
         <property name="suffix" value=".ftl"/>
     </bean>
@@ -58,12 +61,13 @@
     <!--二、配置数据源-->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
-        <property name="url" value="jdbc:mysql://localhost:3306/me_reader?useSSL=false&amp;useUnicode=true&amp;amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
+        <property name="url"
+                  value="jdbc:mysql://localhost:3306/me_reader?useSSL=false&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai&amp;allowPublicKeyRetrieval=true"/>
         <property name="username" value="root"/>
         <property name="password" value="1q1q1q1q"/>
-<!--        初始化多少连接,比如5个人使用就不该小于5-->
+        <!--        初始化多少连接,比如5个人使用就不该小于5-->
         <property name="initialSize" value="5"/>
-<!--        同时访问人数的峰值，超过的阻塞-->
+        <!--        同时访问人数的峰值，超过的阻塞-->
         <property name="maxActive" value="20"/>
     </bean>
     <!-- SqlSessionFactoryBean用于根据配置信息创建SqlSessionFactory,不再需要我们自己编码创建 -->
@@ -72,10 +76,17 @@
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
         <!-- 五、MyBatis配置文件地址 -->
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
+
     </bean>
     <!-- 四、配置Mapper扫描器 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-<!--        告诉spring哪一个包是接口-->
+        <!--        告诉spring哪一个包是接口-->
         <property name="basePackage" value="com.me.reader.mapper"/>
     </bean>
+    <!-- 声明式事务配置 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!-- 看到annotation-driven就是开启与之对应的注解模式 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>
