@@ -71,7 +71,11 @@
         <property name="maxActive" value="20"/>
     </bean>
     <!-- SqlSessionFactoryBean用于根据配置信息创建SqlSessionFactory,不再需要我们自己编码创建 -->
-    <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+    <!--
+        原生MyBatis与Spring整合
+        <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        -->
+    <bean id="sessionFactory" class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:mappers/*.xml"/>
         <!-- 五、MyBatis配置文件地址 -->

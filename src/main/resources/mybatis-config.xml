@@ -6,4 +6,11 @@
     <settings>
         <setting name="mapUnderscoreToCamelCase" value="true"/>
     </settings>
+    <plugins>
+        <!-- 配置MyBatis-Plus分页插件
+            旧版<plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></plugin>已过时
+            MyBatis-Plus在3.4.0后推荐新用法
+        -->
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor"></plugin>
+    </plugins>
 </configuration>
