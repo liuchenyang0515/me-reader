@@ -16,7 +16,7 @@ public class TestService {
 //            if (i == 3) {
 //                throw new RuntimeException("预期外异常");
 //            }
-            testMapper.insert();
+            testMapper.insertSample();
         }
     }
 }

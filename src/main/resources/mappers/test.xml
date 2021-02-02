@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.me.reader.mapper.TestMapper">
     <!-- id写接口方法名 -->
-    <insert id="insert">
+    <insert id="insertSample">
         insert into test(content) values('测试内容')
     </insert>
 </mapper>
