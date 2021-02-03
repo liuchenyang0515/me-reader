@@ -20,6 +20,14 @@ public class BookServiceImplTest {
     @Resource
     private BookService bookService;
 
+    /**
+     * 11:07:00 DEBUG [main] c.m.r.m.B.selectPage_mpCount - ==>  Preparing: SELECT COUNT(*) FROM book
+     * 11:07:00 DEBUG [main] c.m.r.m.B.selectPage_mpCount - ==> Parameters:
+     * 11:07:00 DEBUG [main] c.m.r.m.B.selectPage_mpCount - <==      Total: 1
+     * 11:07:00 DEBUG [main] c.m.r.m.BookMapper.selectPage - ==>  Preparing: SELECT book_id,book_name,sub_title,author,cover,description,category_id,evaluation_score,evaluation_quantity FROM book LIMIT ?
+     * 11:07:00 DEBUG [main] c.m.r.m.BookMapper.selectPage - ==> Parameters: 10(Long)
+     * 11:07:00 DEBUG [main] c.m.r.m.BookMapper.selectPage - <==      Total: 10
+     */
     @Test
     public void paging() {
         IPage<Book> pageObject = bookService.paging(1, 10);
