@@ -11,6 +11,10 @@
             旧版<plugin interceptor="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor"></plugin>已过时
             MyBatis-Plus在3.4.0后推荐新用法
         -->
-        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor"></plugin>
+        <plugin interceptor="com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor">
+            <!-- 下面这句话不能掉，新版本3.4.0+如果不写下面这句分页失效，算不到总记录数和总页数 -->
+            <property name="@page" value="com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor"/>
+            <property name="page:dbType" value="mysql"/>
+        </plugin>
     </plugins>
 </configuration>
