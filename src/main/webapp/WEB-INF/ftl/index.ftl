@@ -34,7 +34,25 @@
             padding: 0px;
         }
     </style>
-
+    <script>
+        $(()=>{
+            $.ajax({
+                url: "/books",
+                data: {p:1},
+                type: "get",
+                dataType: "json",
+                success: (json)=>{
+                    console.info(json);
+                    let list = json.records;
+                    for (let i = 0; i < list.length; ++i) {
+                        let book = json.records[i];
+                        let html = "<li>" + book.bookName + "</li>";
+                        $("#bookList").append(html);
+                    }
+                }
+            })
+        })
+    </script>
 </head>
 <body>
 <div class="container">
