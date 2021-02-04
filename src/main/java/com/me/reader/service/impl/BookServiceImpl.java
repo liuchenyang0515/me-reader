@@ -14,20 +14,33 @@ import javax.annotation.Resource;
 
 @Service("bookService")
 @Transactional(propagation = Propagation.NOT_SUPPORTED, readOnly = true)
-public class BookServiceImpl implements BookService {
+public
+class BookServiceImpl implements BookService {
     @Resource
     private BookMapper bookMapper;
     /**
      * 分页查询图书
-     *
+     * @param categoryId 分类编号
+     * @param order 排序方式
      * @param page 页号
      * @param rows 每页记录数
      * @return 分页对象
      */
     @Override
-    public IPage<Book> paging(Integer page, Integer rows) {
+    public IPage<Book> paging(Long categoryId, String order, Integer page, Integer rows) {
         Page<Book> p = new Page<>(page, rows);
         QueryWrapper<Book> queryWrapper = new QueryWrapper<Book>();
+        // 前端是设置的隐藏域，点击分类后修改隐藏域的值来控制categoryId和order来控制分类和排序分类
+        if(categoryId != null && categoryId != -1) {
+            queryWrapper.eq("category_id", categoryId);
+        }
+        if(order != null) {
+            if (order.equals("quantity")) {
+                queryWrapper.orderByDesc("evaluation_quantity");
+            } else {
+                queryWrapper.orderByDesc("evaluation_score");
+            }
+        }
         IPage<Book> pageObject = bookMapper.selectPage(p, queryWrapper);
         return pageObject;
     }

@@ -42,9 +42,9 @@ public class BookController {
      */
     @GetMapping("/books")
     @ResponseBody
-    public IPage<Book> selectBook(Integer p) {
+    public IPage<Book> selectBook(Long categoryId, String order, Integer p) {
         if (p == null) p = 1;
-        IPage<Book> pageObject = bookService.paging(p, 10);
+        IPage<Book> pageObject = bookService.paging(categoryId, order, p, 10);
         // 打印一下，方便查看前端分页的时候，每次分页请求的数据
         List<Book> records = pageObject.getRecords();
         for (Book b : records) {

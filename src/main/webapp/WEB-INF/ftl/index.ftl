@@ -66,12 +66,15 @@
         // isReset参数设置为true，代表从第一页开始查询，否则按nextPage查询后续页
         function loadMore(isReset) {
             if (isReset) {
-                $("#nextPage").val(1)
+                $("#bookList").html("");// 原有查询的图书信息清空，避免点击不同分类时，还存在前面图书信息的bug
+                $("#nextPage").val(1);
             }
             let nextPage = $("#nextPage").val();
+            let categoryId = $("#categoryId").val();
+            let order = $("#order").val();
             $.ajax({
                 url: "/books",
-                data: {p:nextPage},
+                data: {p:nextPage, categoryId: categoryId, order: order},
                 type: "get",
                 dataType: "json",
                 success: (json)=>{
@@ -126,6 +129,23 @@
             $("#btnMore").click(()=>{
                 loadMore();
             })
+            $(".category").click(function(){
+                $(".category").removeClass("highlight");
+                $(".category").addClass("text-black-50");
+                // this对象是当前点击的对象
+                $(this).addClass("highlight");
+                let categoryId = $(this).data("category");// data-category
+                $("#categoryId").val(categoryId); // 设置隐藏域的值，可在chrome观察点击不同分类时，隐藏域的值
+                loadMore(true); // 重新查询跳到第一页
+            })
+            $(".order").click(function(){
+                $(".order").removeClass("highlight");
+                $(".order").addClass("text-black-50");
+                $(this).addClass("highlight");
+                let order = $(this).data("order"); // data-order
+                $("#order").val(order);
+                loadMore(true); // 重新查询跳到第一页
+            })
         })
     </script>
 </head>
@@ -170,6 +190,7 @@
     </div>
     <div class="d-none">
         <input type="hidden" id="nextPage" value="2">
+        <!-- 设置下面两个隐藏域，默认按照热度quantity逻辑来降序排列，categoryId为-1逻辑就是查询全部类别 -->
         <input type="hidden" id="categoryId" value="-1">
         <input type="hidden" id="order" value="quantity">
     </div>
