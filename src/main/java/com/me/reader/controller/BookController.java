@@ -45,6 +45,12 @@ public class BookController {
     public IPage<Book> selectBook(Integer p) {
         if (p == null) p = 1;
         IPage<Book> pageObject = bookService.paging(p, 10);
+        // 打印一下，方便查看前端分页的时候，每次分页请求的数据
+        List<Book> records = pageObject.getRecords();
+        for (Book b : records) {
+            System.out.println(b.getBookId() + ":" + b.getBookName());
+        }
+
         return pageObject;
     }
 }
