@@ -7,6 +7,7 @@ import com.me.reader.service.BookService;
 import com.me.reader.service.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,5 +53,13 @@ public class BookController {
         }
 
         return pageObject;
+    }
+
+    @GetMapping("/book/{id}") // springmvc的路径变量
+    public ModelAndView showDetail(@PathVariable("id") Long id) {
+        Book book = bookService.selectById(id);
+        ModelAndView mav = new ModelAndView("/detail"); // 请求转发跳转到detail页面
+        mav.addObject("book", book);
+        return mav;
     }
 }

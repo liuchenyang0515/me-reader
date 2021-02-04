@@ -3,12 +3,12 @@
     <meta charset="UTF-8">
     <title>慕课书评网</title>
     <meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0,user-scalable=no">
-    <link rel="stylesheet" href="./resources/bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="./resources/raty/lib/jquery.raty.css">
-    <script src="./resources/jquery.3.3.1.min.js"></script>
-    <script src="./resources/bootstrap/bootstrap.min.js"></script>
-    <script src="./resources/art-template.js"></script>
-    <script src="./resources/raty/lib/jquery.raty.js"></script>
+    <link rel="stylesheet" href="/resources/bootstrap/bootstrap.css">
+    <link rel="stylesheet" href="/resources/raty/lib/jquery.raty.css">
+    <script src="/resources/jquery.3.3.1.min.js"></script>
+    <script src="/resources/bootstrap/bootstrap.min.js"></script>
+    <script src="/resources/art-template.js"></script>
+    <script src="/resources/raty/lib/jquery.raty.js"></script>
 	
     <style>
         .highlight {
@@ -61,7 +61,7 @@
     </script>
     <script>
         // 存储图片目录
-        $.fn.raty.defaults.path="./resources/raty/lib/images";
+        $.fn.raty.defaults.path="/resources/raty/lib/images";
         // loadMore()加载更多数据
         // isReset参数设置为true，代表从第一页开始查询，否则按nextPage查询后续页
         function loadMore(isReset) {
@@ -161,7 +161,7 @@
 
         </ul>
                     <a href="/login.html" class="btn btn-light btn-sm">
-                <img style="width: 2rem;margin-top: -5px" class="mr-1" src="./images/user_icon.png">登录
+                <img style="width: 2rem;margin-top: -5px" class="mr-1" src="/images/user_icon.png">登录
             </a>
     </nav>
     <div class="row mt-2">
