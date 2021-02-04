@@ -3,8 +3,10 @@ package com.me.reader.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.me.reader.entity.Book;
 import com.me.reader.entity.Category;
+import com.me.reader.entity.Evaluation;
 import com.me.reader.service.BookService;
 import com.me.reader.service.CategoryService;
+import com.me.reader.service.EvaluationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +24,9 @@ public class BookController {
 
     @Resource
     private BookService bookService;
+
+    @Resource
+    private EvaluationService evaluationService;
 
     /**
      * 显示首页
@@ -58,8 +63,11 @@ public class BookController {
     @GetMapping("/book/{id}") // springmvc的路径变量
     public ModelAndView showDetail(@PathVariable("id") Long id) {
         Book book = bookService.selectById(id);
+        List<Evaluation> evaluationList = evaluationService.selectByBookId(id);
         ModelAndView mav = new ModelAndView("/detail"); // 请求转发跳转到detail页面
         mav.addObject("book", book);
+        mav.addObject("evaluationList", evaluationList); // 评论列表
         return mav;
     }
+
 }
