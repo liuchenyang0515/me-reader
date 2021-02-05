@@ -3,12 +3,13 @@ package com.me.reader.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.tools.JavaCompiler;
-import java.sql.Date;
+import java.util.Date;
 
 /**
  * 由于数据库8版本存在细微差异，member被选为保留字段，建议在表名上加上反引号，避免保留字段和表名冲突，如:
+ *
  * @TableName("`member`")
  */
 @TableName("`member`")
@@ -19,6 +20,7 @@ public class Member {
     private String password;
     private Integer salt;
     private String nickname;
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss SSS", timezone = "GMT+8")
     private Date createTime;
 
     public Long getMemberId() {
@@ -65,7 +67,7 @@ public class Member {
         return createTime;
     }
 
-    public void setCreateTime(java.util.Date createTime) {
-        this.createTime = new Date(createTime.getTime());
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }

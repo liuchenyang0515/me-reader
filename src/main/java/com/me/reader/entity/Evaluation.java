@@ -4,8 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.sql.Date;
+import java.util.Date;
 
 @TableName("evaluation")
 public class Evaluation {
@@ -15,10 +16,12 @@ public class Evaluation {
     private String content;
     private Integer score;
     private Long memberId;
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss SSS", timezone = "GMT+8")
     private Date createTime;
     private Integer enjoy;
     private String state;
     private String disableReason;
+    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss SSS", timezone = "GMT+8")
     private Date disableTime;
     // 没有对应字段，是关联字段
     @TableField(exist = false) // 说明book属性没有对应字段，不会参与到sql自动生成
@@ -70,8 +73,8 @@ public class Evaluation {
         return createTime;
     }
 
-    public void setCreateTime(java.util.Date createTime) {
-        this.createTime = new Date(createTime.getTime());
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public Integer getEnjoy() {
@@ -102,8 +105,8 @@ public class Evaluation {
         return disableTime;
     }
 
-    public void setDisableTime(java.util.Date disableTime) {
-        this.disableTime = new Date(disableTime.getTime());
+    public void setDisableTime(Date disableTime) {
+        this.disableTime = disableTime;
     }
 
     public Book getBook() {
