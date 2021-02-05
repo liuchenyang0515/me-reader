@@ -42,6 +42,7 @@ public class BookController {
     }
 
     /**
+     * 前端页面渲染完成后发出ajax请求，/books?p=1&categoryId=-1&order=quantity，该方法参数会自动匹配url的?之后的参数
      * 分页查询图书列表
      * @param p 页号
      * @return 分页对象
@@ -60,13 +61,13 @@ public class BookController {
         return pageObject;
     }
 
-    @GetMapping("/book/{id}") // springmvc的路径变量
+    @GetMapping("/book/{id}") // springmvc的路径变量，这{id}是前端传来的bookId，<a href="/book/{{bookId}}" style="color: inherit">，点击后命中这个路由
     public ModelAndView showDetail(@PathVariable("id") Long id) {
         Book book = bookService.selectById(id);
-        List<Evaluation> evaluationList = evaluationService.selectByBookId(id);
+        List<Evaluation> evaluationList = evaluationService.selectByBookId(id); // 按照图书编号查询短评，需要除了book表之外的evaluation表的内容
         ModelAndView mav = new ModelAndView("/detail"); // 请求转发跳转到detail页面
-        mav.addObject("book", book);
-        mav.addObject("evaluationList", evaluationList); // 评论列表
+        mav.addObject("book", book); // 为了展示详情页上面版块，需要星星数，多少人评价，subTitle之类的参数
+        mav.addObject("evaluationList", evaluationList); // 评论列表，需要时间、昵称、评论内容之类的参数
         return mav;
     }
 

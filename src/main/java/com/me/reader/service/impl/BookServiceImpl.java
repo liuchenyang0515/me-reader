@@ -35,9 +35,9 @@ public class BookServiceImpl implements BookService {
         }
         if(order != null) {
             if (order.equals("quantity")) {
-                queryWrapper.orderByDesc("evaluation_quantity");
+                queryWrapper.orderByDesc("evaluation_quantity"); // 按照热度--评分人数降序
             } else {
-                queryWrapper.orderByDesc("evaluation_score");
+                queryWrapper.orderByDesc("evaluation_score"); // 按照评分降序
             }
         }
         IPage<Book> pageObject = bookMapper.selectPage(p, queryWrapper);
