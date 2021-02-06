@@ -1,6 +1,7 @@
 package com.me.reader.service;
 
 import com.me.reader.entity.Member;
+import com.me.reader.entity.MemberReadState;
 
 public interface MemberService {
     /**
@@ -19,4 +20,12 @@ public interface MemberService {
      * @return  登录对象
      */
     public Member checkLogin(String username, String password);
+
+    /**
+     * 获取阅读状态
+     * @param memberId 会员编号
+     * @param bookId 图书编号
+     * @return 阅读状态对象
+     */
+    public MemberReadState selectMemberReadState(Long memberId, Long bookId);
 }

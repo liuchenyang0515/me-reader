@@ -49,6 +49,12 @@
         $(function () {
             $(".stars").raty({readOnly: true});
         })
+        $(function () {
+            <#if memberReadState ??>
+                // 只要点击过想看或者在看，对应状态就高亮显示
+                $("*[data-read-state='${memberReadState.readState}']").addClass("highlight");
+            </#if>
+        })
     </script>
 </head>
 <body>
