@@ -48,4 +48,27 @@ public class MemberServiceImpl implements MemberService {
         memberMapper.insert(member);
         return member;
     }
+
+    /**
+     * 登录检查
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @return 登录对象
+     */
+    @Override
+    public Member checkLogin(String username, String password) {
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("username", username);
+        Member member = memberMapper.selectOne(queryWrapper);// 要么查询到这个用户，要么查不到
+        if (member == null) {
+            throw new BussinessException("M02", "用户不存在");
+        }
+        // 用户存在，开始进行密码校验
+        String md5 = MD5Utils.md5Digest(password, member.getSalt());
+        if (!md5.equals(member.getPassword())) {
+            throw new BussinessException("M03", "输入密码有误");
+        }
+        return member;
+    }
 }
