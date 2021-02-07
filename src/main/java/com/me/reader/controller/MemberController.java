@@ -1,5 +1,6 @@
 package com.me.reader.controller;
 
+import com.me.reader.entity.Evaluation;
 import com.me.reader.entity.Member;
 import com.me.reader.entity.MemberReadState;
 import com.me.reader.service.MemberService;
@@ -96,6 +97,23 @@ public class MemberController {
             MemberReadState memberReadState = memberService.updateMemberReadState(memberId, bookId, readState);
             result.put("code", "0");
             result.put("msg", "success");
+        } catch (BussinessException ex) {
+            ex.printStackTrace();
+            result.put("code", ex.getCode());
+            result.put("msg", ex.getMsg());
+        }
+        return result;
+    }
+
+    @PostMapping("/evaluate")
+    @ResponseBody
+    public Map<String, Object> evaluation(Long memberId, Long bookId, Integer score, String content) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Evaluation evaluate = memberService.evaluate(memberId, bookId, score, content);
+            result.put("code", "0");
+            result.put("msg", "success");
+            result.put("evaluation", evaluate);
         } catch (BussinessException ex) {
             ex.printStackTrace();
             result.put("code", ex.getCode());
