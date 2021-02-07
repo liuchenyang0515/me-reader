@@ -121,4 +121,22 @@ public class MemberController {
         }
         return result;
     }
+
+
+    @PostMapping("/enjoy")
+    @ResponseBody
+    public Map enjoy(Long evaluationId) {
+        Map result = new HashMap<>();
+        try {
+            Evaluation enjoy = memberService.enjoy(evaluationId);
+            result.put("code", "0");
+            result.put("msg", "success");
+            result.put("enjoy", enjoy);
+        } catch (BussinessException ex) {
+            ex.printStackTrace();
+            result.put("code", ex.getCode());
+            result.put("msg", ex.getMsg());
+        }
+        return result;
+    }
 }

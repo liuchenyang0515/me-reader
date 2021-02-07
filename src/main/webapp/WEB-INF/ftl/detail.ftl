@@ -98,6 +98,21 @@
                         }
                     }, "json")
                 })
+                // 评论点赞
+                $("*[data-evaluation-id]").click(function () {
+                    let evaluationId = $(this).data("evaluation-id") + ""; // 这里的序号带有,导致出错！！就是一坑，2136是2,136导致传到后端不能转换成Long出错
+                    console.log(typeof evaluationId); // 结果有的是number，自己新增的就是string，干脆全部转为string再操作
+                    evaluationId = evaluationId.replace(new RegExp(',', 'g'), ''); // 去掉数组字符串中的逗号
+                    console.log(evaluationId);
+                    $.post("/enjoy",{
+                        evaluationId: evaluationId
+                    }, function (json) {
+                        if (json.code == "0") {
+                            // 找到当前点击按钮下的span标签
+                            $("*[data-evaluation-id='" + evaluationId + "'] span").text(json.enjoy.enjoy);// 刷新后才看得到，有点bug，其余的数据库已有的评论点赞立即可见
+                        }
+                    }, "json")
+                })
             </#if>
         })
     </script>
