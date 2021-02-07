@@ -54,6 +54,29 @@
                 // 只要点击过想看或者在看，对应状态就高亮显示
                 $("*[data-read-state='${memberReadState.readState}']").addClass("highlight");
             </#if>
+            <#if !loginMember ??>
+                $("*[data-read-state], #btnEvaluation, *[data-evaluation-id]").click(()=>{
+                    // 未登录情况下提示"需要登录"
+                    $("#exampleModalCenter").modal("show"); //  modal对话框函数
+                })
+            </#if>
+            <#if loginMember ??>
+                $("*[data-read-state]").click(function(){
+                    let readState = $(this).data("read-state");
+                    $.post("/update_read_state", {
+                        memberId: ${loginMember.memberId},
+                        bookId: ${book.bookId},
+                        readState: readState
+                    },(json)=>{
+                        if (json.code == "0") {
+                            // 两个状态都去除高亮
+                            $("*[data-read-state]").removeClass("highlight");
+                            // 与对应的想看或者看过置位高亮
+                            $("*[data-read-state='" + readState + "']").addClass("highlight");
+                        }
+                    }, "json")
+                })
+            </#if>
         })
     </script>
 </head>

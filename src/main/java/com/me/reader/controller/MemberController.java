@@ -1,6 +1,7 @@
 package com.me.reader.controller;
 
 import com.me.reader.entity.Member;
+import com.me.reader.entity.MemberReadState;
 import com.me.reader.service.MemberService;
 import com.me.reader.service.exception.BussinessException;
 import org.springframework.stereotype.Controller;
@@ -76,6 +77,29 @@ public class MemberController {
                 result.put("code", ex.getCode());
                 result.put("msg", ex.getMsg());
             }
+        }
+        return result;
+    }
+
+    /**
+     * 更新想看/看过阅读状态
+     * @param memberId 会员id
+     * @param bookId 图书id
+     * @param readState 阅读状态
+     * @return 处理结果
+     */
+    @PostMapping("/update_read_state")
+    @ResponseBody
+    public Map<String, String> updateReadState(Long memberId, Long bookId, Integer readState) {
+        Map<String, String> result = new HashMap<>();
+        try {
+            MemberReadState memberReadState = memberService.updateMemberReadState(memberId, bookId, readState);
+            result.put("code", "0");
+            result.put("msg", "success");
+        } catch (BussinessException ex) {
+            ex.printStackTrace();
+            result.put("code", ex.getCode());
+            result.put("msg", ex.getMsg());
         }
         return result;
     }
