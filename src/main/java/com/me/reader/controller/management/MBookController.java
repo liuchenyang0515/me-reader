@@ -1,5 +1,6 @@
 package com.me.reader.controller.management;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.me.reader.entity.Book;
 import com.me.reader.service.BookService;
 import com.me.reader.service.exception.BussinessException;
@@ -43,7 +44,7 @@ public class MBookController {
     // editor.config.uploadFileName = 'img'; //图片上传时的参数名
     // 这里img是和图片上传时参数名对应
     @ResponseBody
-    public Map upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) throws IOException {
+    public Map<String, Object> upload(@RequestParam("img") MultipartFile file, HttpServletRequest request) throws IOException {
         // 得到上传目录 /D:/me-reader/out/artifacts/me_reader_Web_exploded//upload/
         String uploadPath = request.getServletContext().getResource("/").getPath() + "/upload/";// 运行时获取的路径是out目录下的路径
         // 文件名
@@ -52,7 +53,7 @@ public class MBookController {
         String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
         // 另存为，保存文件到upload目录
         file.transferTo(new File(uploadPath + fileName + suffix));
-        Map result = new HashMap();
+        Map<String, Object> result = new HashMap<>();
         result.put("errno", 0);
         result.put("data", new String[]{"/upload/" + fileName + suffix});
         return result;
@@ -60,8 +61,8 @@ public class MBookController {
 
     @PostMapping("/create")
     @ResponseBody
-    public Map createBook(Book book) {
-        Map result = new HashMap();
+    public Map<String, Object> createBook(Book book) {
+        Map<String, Object> result = new HashMap<>();
         try {
             book.setEvaluationQuantity(0); // 刚创建的书籍评分人数为0
             book.setEvaluationScore(0f); // 刚创建的书籍得分为0
@@ -79,6 +80,24 @@ public class MBookController {
             result.put("code", ex.getCode());
             result.put("msg", ex.getMsg());
         }
+        return result;
+    }
+
+    @GetMapping("/list")
+    @ResponseBody
+    public Map<String, Object> list(Integer page, Integer limit) {
+        if (page == null) {
+            page = 1;
+        }
+        if (limit == null) {
+            limit = 10;
+        }
+        IPage<Book> pageObject = bookService.paging(null, null, page, limit);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", "0");
+        result.put("msg", "success");
+        result.put("data", pageObject.getRecords()); // 当前分页数据
+        result.put("count", pageObject.getTotal()); // 未分页时记录总数
         return result;
     }
 }
