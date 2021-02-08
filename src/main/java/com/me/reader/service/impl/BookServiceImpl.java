@@ -77,4 +77,17 @@ public class BookServiceImpl implements BookService {
         bookMapper.insert(book);
         return book;
     }
+
+    /**
+     * 更新图书
+     *
+     * @param book 新图书数据
+     * @return 更新后的数据
+     */
+    @Override
+    @Transactional
+    public Book updateBook(Book book) {
+        bookMapper.updateById(book);
+        return book;
+    }
 }

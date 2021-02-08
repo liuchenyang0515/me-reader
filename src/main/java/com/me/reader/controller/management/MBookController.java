@@ -100,4 +100,41 @@ public class MBookController {
         result.put("count", pageObject.getTotal()); // 未分页时记录总数
         return result;
     }
+
+
+    @GetMapping("/id/{id}")
+    @ResponseBody
+    public Map<String, Object> selectById(@PathVariable("id") Long bookId) {
+        Book book = bookService.selectById(bookId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("code", "0");
+        result.put("msg", "success");
+        result.put("data", book);
+        return result;
+    }
+
+    @PostMapping("/update")
+    @ResponseBody
+    public Map<String, Object> updateBook(Book book) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Book rawBook = bookService.selectById(book.getBookId());
+            rawBook.setBookName(book.getBookName());
+            rawBook.setSubTitle(book.getSubTitle());
+            rawBook.setAuthor(book.getAuthor());
+            rawBook.setCategoryId(book.getCategoryId());
+            rawBook.setDescription(book.getDescription());
+            Document doc = Jsoup.parse(book.getDescription());
+            String cover = doc.select("img").first().attr("src");
+            rawBook.setCover(cover);
+            bookService.updateBook(rawBook);
+            result.put("code", "0");
+            result.put("msg", "success");
+        } catch (BussinessException ex) {
+            ex.printStackTrace();
+            result.put("code", ex.getCode());
+            result.put("msg", ex.getMsg());
+        }
+        return result;
+    }
 }
