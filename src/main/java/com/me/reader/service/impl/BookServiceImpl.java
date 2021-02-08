@@ -55,4 +55,13 @@ public class BookServiceImpl implements BookService {
         Book book = bookMapper.selectById(bookId);
         return book;
     }
+
+    /**
+     * 更新图书评分/评价数量
+     */
+    @Override
+    @Transactional // 开启声明式事务
+    public void updateEvaluation() {
+        bookMapper.updateEvaluation();
+    }
 }
