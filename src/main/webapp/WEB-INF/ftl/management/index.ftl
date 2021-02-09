@@ -41,7 +41,7 @@
                         <a href="javascript:void(0)">数据管理</a>
                         <dl class="layui-nav-child module" data-node-id="xxx">
                             <dd><a href="/management/book/index.html" target="ifmMain">图书管理</a></dd>
-                            <dd><a href="短评管理.html" target="ifmMain">短评管理
+                            <dd><a href="/management/evaluation/evaluations.html" target="ifmMain">短评管理
                                 </a></dd>
                         </dl>
                     </li>

@@ -57,8 +57,17 @@ public interface MemberService {
 
     /**
      * 短评点赞
+     *
      * @param evaluationId 短评编号
      * @return 短评对象
      */
     public Evaluation enjoy(Long evaluationId);
+
+    /**
+     * 根据memberId查询会员
+     *
+     * @param memberId 会员编号
+     * @return
+     */
+    public Member selectMemberById(Long memberId);
 }

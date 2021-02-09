@@ -16,12 +16,12 @@ public class Evaluation {
     private String content;
     private Integer score;
     private Long memberId;
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss SSS", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
     private Integer enjoy;
     private String state;
     private String disableReason;
-    @JsonFormat(pattern = "yyyy-MM-dd HH-mm-ss SSS", timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date disableTime;
     // 没有对应字段，是关联字段
     @TableField(exist = false) // 说明book属性没有对应字段，不会参与到sql自动生成

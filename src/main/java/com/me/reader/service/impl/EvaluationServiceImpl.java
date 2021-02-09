@@ -1,6 +1,8 @@
 package com.me.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.me.reader.entity.Book;
 import com.me.reader.entity.Evaluation;
 import com.me.reader.entity.Member;
@@ -13,6 +15,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 @Service("evaluationService")
@@ -48,5 +51,21 @@ public class EvaluationServiceImpl implements EvaluationService {
             eva.setBook(book); // 从评论建立对应图书信息
         }
         return evaluationList;
+    }
+
+    /**
+     * 评论管理分页
+     *
+     * @param page       评论列表页码
+     * @param rows       每页数据行数
+     * @return 分页对象
+     */
+    @Override
+    public IPage<Evaluation> paging(Integer page, Integer rows) {
+        Page<Evaluation> p = new Page<>(page, rows);
+        QueryWrapper<Evaluation> queryWrapper = new QueryWrapper<>();
+        queryWrapper.orderByDesc("create_time");
+        IPage<Evaluation> pageObject = evaluationMapper.selectPage(p, queryWrapper);
+        return pageObject;
     }
 }

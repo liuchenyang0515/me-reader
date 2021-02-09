@@ -97,6 +97,8 @@
             , {field: 'subTitle', title: '子标题', width: '200'}
             , {field: 'author', title: '作者', width: '200'}
             , {type: 'space', title: '操作', width: '200' , templet : function(d){
+                console.log("======!!");
+                console.info(d);
 					//为每一行表格数据生成"修改"与"删除"按钮,并附加data-id属性代表图书编号
                     return "<button class='layui-btn layui-btn-sm btn-update'  data-id='" + d.bookId + "' data-type='update' onclick='showUpdate(this)'>修改</button>" +
                         "<button class='layui-btn layui-btn-sm btn-delete'  data-id='" + d.bookId + "'   onclick='showDelete(this)'>删除</button>";

@@ -163,4 +163,19 @@ public class MemberServiceImpl implements MemberService {
         evaluationMapper.updateById(evaluation);
         return evaluation;
     }
+
+    /**
+     * 根据memberId查询会员
+     *
+     * @param memberId 会员编号
+     * @return
+     */
+    @Override
+    public Member selectMemberById(Long memberId) {
+        QueryWrapper<Member> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("member_id", memberId);
+        Member member = memberMapper.selectOne(queryWrapper);
+        return member;
+    }
+
 }
